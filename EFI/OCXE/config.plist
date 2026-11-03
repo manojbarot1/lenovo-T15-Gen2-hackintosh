@@ -1350,8 +1350,16 @@
 				<data>
 				Rg==
 				</data>
+				<key>bluetoothExternalDongleFailed</key>
+				<data>
+				AA==
+				</data>
+				<key>bluetoothInternalControllerInfo</key>
+				<data>
+				AAAAAAAAAAAAAAAAAAA=
+				</data>
 				<key>boot-args</key>
-				<string>keepsyms=1 -allow3d -disablegfxfirmware -igfxdvmt</string>
+				<string>keepsyms=1 -allow3d -disablegfxfirmware -igfxdvmt -btlfxallowanyaddr</string>
 				<key>csr-active-config</key>
 				<data>
 				AwgAAA==
@@ -1378,6 +1386,8 @@
 			<array>
 				<string>boot-args</string>
 				<string>csr-active-config</string>
+				<string>bluetoothExternalDongleFailed</string>
+				<string>bluetoothInternalControllerInfo</string>
 			</array>
 		</dict>
 		<key>LegacyOverwrite</key>

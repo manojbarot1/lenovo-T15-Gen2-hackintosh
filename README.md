@@ -81,8 +81,8 @@ Booting: **F12 → SSD**. In the OpenCore menu, always pick entries marked **(ex
 | | HS03 | 3 | internal | fingerprint reader |
 | | HS04 | 4 | internal | camera |
 | | HS05, HS06 | 5, 6 | USB-C | USB-C (USB 2 lanes) |
-| | HS07 | 7 | USB-A | USB-A (USB 2 lane) |
-| | HS10 | 10 | internal | Bluetooth |
+| | HS07 | 7 | internal (255) | **Bluetooth** (Intel AX201, USB 8087:0026, location 0x14700000); was mapped USB-A type 3, which left macOS Bluetooth at `Address: NULL` |
+| | HS10 | 10 | internal | unused (nothing enumerates here); originally guessed as Bluetooth |
 | | SS01, SS02 | 13, 14 | USB-A | USB-A (USB 3 lanes) |
 | TXHC `0:13:0` (Thunderbolt 4) | SS02, SS03 | 3, 4 | USB-C | USB-C (USB 3/10 Gbps lanes): **use these for the SSD** |
 
@@ -259,7 +259,7 @@ Ventura 13.4.1 Recovery (`recovery/com.apple.recovery.boot/BaseSystem.dmg` +
 - [ ] Stay on Ventura 13.7.8: turn off automatic macOS updates (Tahoe would break AirportItlwm's Ventura build, WEX Graphics payloads, USB map and the offline-install path)
 - [x] Audio: **Realtek ALC257** (codec 0x10EC0257) on Tiger Lake HDA 8086:A0C8 (subsystem 17AA:22C9). AppleALC 1.9.8 after Lilu in OC + OCXE, `layout-id` 11 on `Pci(0x1f,0x3)` (`tools/mac-applealc.sh`, run from macOS). Speakers work; macOS shows Built-in Microphone and Line In
 - [ ] Audio: confirm headphone jack switching and the internal mic
-- [ ] Bluetooth: IntelBluetoothFirmware + IntelBTPatcher 2.4.0 and BlueToolFixup 2.7.2 after Lilu in OC + OCXE (`tools/mac-add-kexts.sh`, from macOS); AX201 BT is USB 8087:0026 on HS07. Test: AirPods
+- [ ] Bluetooth: IntelBluetoothFirmware + IntelBTPatcher 2.4.0 and BlueToolFixup 2.7.2 after Lilu in OC + OCXE (`tools/mac-add-kexts.sh`, from macOS); AX201 BT is USB 8087:0026 on HS07, which must be internal (255) in USBMap (`tools/mac-usbmap-port.sh HS07 255`); NVRAM `bluetoothExternalDongleFailed=00`, `bluetoothInternalControllerInfo`=14×00 (also in NVRAM > Delete) and boot-arg `-btlfxallowanyaddr` per the BrcmPatchRAM README for macOS 12.4+ (`tools/mac-bt-nvram.sh`). Test: AirPods
 - [ ] `git init` and push to GitHub (see `.gitignore`)
 
 ---
