@@ -24,6 +24,7 @@ finally worked. Work done 2026-11-02 → 2026-11-03.
 | Trackpad / TrackPoint | Synaptics over PS/2 | VoodooPS2 (Mouse + Trackpad plugins) |
 | Audio | Realtek ALC257 on Tiger Lake HDA (A0C8) | AppleALC, layout-id 11: speakers ✅ |
 | Bluetooth | Intel AX201 (USB 8087:0026 on HS07) | IntelBluetoothFirmware + IntelBTPatcher, BlueToolFixup 2.7.3 with the A2DP fix: AirPods Pro connect and play sound; Noise Cancellation / Transparency switch from the Sound menu ✅ (Adaptive needs Sonoma+) |
+| Battery | ThinkPad embedded controller | SMCBatteryManager + ECEnabler: percentage and charging ✅ |
 | Ethernet | Intel I219 | IntelMausi |
 | Build machine | ThinkPad T14 Gen 1 running Linux (this repo) | — |
 
@@ -260,7 +261,7 @@ Ventura 13.4.1 Recovery (`recovery/com.apple.recovery.boot/BaseSystem.dmg` +
 - [ ] Stay on Ventura 13.7.8: turn off automatic macOS updates (Tahoe would break AirportItlwm's Ventura build, WEX Graphics payloads, USB map and the offline-install path)
 - [x] Audio: **Realtek ALC257** (codec 0x10EC0257) on Tiger Lake HDA 8086:A0C8 (subsystem 17AA:22C9). AppleALC 1.9.8 after Lilu in OC + OCXE, `layout-id` 11 on `Pci(0x1f,0x3)` (`tools/mac-applealc.sh`, run from macOS). Speakers work; macOS shows Built-in Microphone and Line In
 - [ ] Audio: confirm headphone jack switching and the internal mic
-- [ ] Battery: macOS shows no battery at all (no `AppleSmartBattery`). Add VirtualSMC's SMCBatteryManager + ECEnabler (ThinkPad EC fields are wider than 8 bits). Added SMCBatteryManager + SMCProcessor (VirtualSMC 1.3.8) and ECEnabler 1.0.6 right after VirtualSMC in OC + OCXE (`AFTER=VirtualSMC.kext tools/mac-add-kexts.sh …`); testing
+- [x] Battery: macOS showed no battery at all (no `AppleSmartBattery`). Add VirtualSMC's SMCBatteryManager + ECEnabler (ThinkPad EC fields are wider than 8 bits). Added SMCBatteryManager + SMCProcessor (VirtualSMC 1.3.8) and ECEnabler 1.0.6 right after VirtualSMC in OC + OCXE (`AFTER=VirtualSMC.kext tools/mac-add-kexts.sh …`): battery icon and percentage show ✅
 - [ ] Brightness: no `AppleBacklightDisplay`, so no slider; check SSDT-PNLF with WEX, add BrightnessKeys for the Fn keys
 - [ ] Sleep/wake and lid: untested; laptop defaults `hibernatemode 0`, Power Nap off, then check USB/Wi-Fi after wake
 - [ ] Sensors: SMCProcessor (CPU temperature) — nice to have
