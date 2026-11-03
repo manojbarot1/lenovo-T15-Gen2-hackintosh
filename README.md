@@ -259,7 +259,7 @@ Ventura 13.4.1 Recovery (`recovery/com.apple.recovery.boot/BaseSystem.dmg` +
 - [ ] Stay on Ventura 13.7.8: turn off automatic macOS updates (Tahoe would break AirportItlwm's Ventura build, WEX Graphics payloads, USB map and the offline-install path)
 - [x] Audio: **Realtek ALC257** (codec 0x10EC0257) on Tiger Lake HDA 8086:A0C8 (subsystem 17AA:22C9). AppleALC 1.9.8 after Lilu in OC + OCXE, `layout-id` 11 on `Pci(0x1f,0x3)` (`tools/mac-applealc.sh`, run from macOS). Speakers work; macOS shows Built-in Microphone and Line In
 - [ ] Audio: confirm headphone jack switching and the internal mic
-- [ ] Bluetooth (IntelBluetoothFirmware + BlueToolFixup)
+- [ ] Bluetooth: IntelBluetoothFirmware + IntelBTPatcher 2.4.0 and BlueToolFixup 2.7.2 after Lilu in OC + OCXE (`tools/mac-add-kexts.sh`, from macOS); AX201 BT is USB 8087:0026 on HS07. Test: AirPods
 - [ ] `git init` and push to GitHub (see `.gitignore`)
 
 ---
