@@ -22,6 +22,7 @@ finally worked. Work done 2026-11-02 → 2026-11-03.
 | macOS disk | WD Blue SA510 1 TB M.2 SATA in a Satechi USB-C enclosure (10 Gbps) | works |
 | Wi-Fi | Intel AX201 | `AirportItlwm` 2.3.0 Ventura build: native Wi-Fi menu (itlwm kept, disabled) |
 | Trackpad / TrackPoint | Synaptics over PS/2 | VoodooPS2 (Mouse + Trackpad plugins) |
+| Audio | Realtek ALC257 on Tiger Lake HDA (A0C8) | AppleALC, layout-id 11: speakers ✅ |
 | Ethernet | Intel I219 | IntelMausi |
 | Build machine | ThinkPad T14 Gen 1 running Linux (this repo) | — |
 
@@ -256,7 +257,8 @@ Ventura 13.4.1 Recovery (`recovery/com.apple.recovery.boot/BaseSystem.dmg` +
 - [x] RestrictEvents 1.1.6 after Lilu: hides the MacPro7,1 "memory modules misconfigured" notice
 - [ ] Resume the backup copy-back (TEMPBACKUP → SSD partition 1, 53/290 GB done)
 - [ ] Stay on Ventura 13.7.8: turn off automatic macOS updates (Tahoe would break AirportItlwm's Ventura build, WEX Graphics payloads, USB map and the offline-install path)
-- [ ] Audio: AppleALC 1.9.8 after Lilu in OC + OCXE, `layout-id` on `Pci(0x1f,0x3)` (HDA 8086:A0C8, subsystem 17AA:22C9); starting layout 11, codec still to confirm (`tools/mac-applealc.sh`, run from macOS)
+- [x] Audio: **Realtek ALC257** (codec 0x10EC0257) on Tiger Lake HDA 8086:A0C8 (subsystem 17AA:22C9). AppleALC 1.9.8 after Lilu in OC + OCXE, `layout-id` 11 on `Pci(0x1f,0x3)` (`tools/mac-applealc.sh`, run from macOS). Speakers work; macOS shows Built-in Microphone and Line In
+- [ ] Audio: confirm headphone jack switching and the internal mic
 - [ ] Bluetooth (IntelBluetoothFirmware + BlueToolFixup)
 - [ ] `git init` and push to GitHub (see `.gitignore`)
 
