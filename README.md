@@ -256,6 +256,7 @@ Ventura 13.4.1 Recovery (`recovery/com.apple.recovery.boot/BaseSystem.dmg` +
 - [x] RestrictEvents 1.1.6 after Lilu: hides the MacPro7,1 "memory modules misconfigured" notice
 - [ ] Resume the backup copy-back (TEMPBACKUP → SSD partition 1, 53/290 GB done)
 - [ ] Stay on Ventura 13.7.8: turn off automatic macOS updates (Tahoe would break AirportItlwm's Ventura build, WEX Graphics payloads, USB map and the offline-install path)
+- [ ] Audio: AppleALC 1.9.8 after Lilu in OC + OCXE, `layout-id` on `Pci(0x1f,0x3)` (HDA 8086:A0C8, subsystem 17AA:22C9); starting layout 11, codec still to confirm (`tools/mac-applealc.sh`, run from macOS)
 - [ ] Bluetooth (IntelBluetoothFirmware + BlueToolFixup)
 - [ ] `git init` and push to GitHub (see `.gitignore`)
 
@@ -277,5 +278,5 @@ Ventura 13.4.1 Recovery (`recovery/com.apple.recovery.boot/BaseSystem.dmg` +
 | `t15-backup/` | T15 fstab/home backup | no |
 | `photos/` | phone photos of the T15 screen | no (local) |
 
-ESP edits are made from Debian on the T15 (macOS can't mount the ESP over SSH). Real
+ESP edits: from macOS over SSH once Remote Login has "Allow full disk access for remote users" on (`tools/mac-*.sh`, PlistBuddy only, no Python on macOS); otherwise from Debian (`tools/debian-*.sh`). Real
 serials are written to the ESP by `tools/debian-smbios.sh` / `tools/debian-ocxe.sh`.
