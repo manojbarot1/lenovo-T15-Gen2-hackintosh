@@ -2,8 +2,10 @@
 # Run on the T15 macOS with sudo, with the .kext folders copied next to this script:
 #   scp -r <kexts> tools/mac-add-kexts.sh manojb@192.168.1.17:addk/
 #   ssh -t manojb@192.168.1.17 'sudo bash ~/addk/mac-add-kexts.sh A.kext B.kext ...'
+#   ssh -t manojb@192.168.1.17 'sudo AFTER=VirtualSMC.kext bash ~/addk/mac-add-kexts.sh SMCBatteryManager.kext'
 # Copies the kexts into EFI\OC and EFI\OCXE on the external SSD's ESP and adds them to
-# Kernel > Add right after Lilu, in the order given (existing entries are replaced in place).
+# Kernel > Add right after Lilu (or after $AFTER, e.g. AFTER=VirtualSMC.kext for its plugins),
+# in the order given (existing entries are replaced in place).
 # Needs Remote Login's "Allow full disk access for remote users". PlistBuddy only, no Python.
 # Backups: config.plist.before-<first kext name>
 set -euo pipefail
@@ -23,12 +25,12 @@ index_of() { local n=0 p; while p=$($PB -c "Print :Kernel:Add:$n:BundlePath" "$2
 for R in OC OCXE; do
   E="$MP/EFI/$R"; C="$E/config.plist"
   [ -f "$C.before-$TAG" ] || cp "$C" "$C.before-$TAG"
-  AT=$(index_of Lilu.kext "$C")
+  AT=$(index_of "${AFTER:-Lilu.kext}" "$C"); [ -n "$AT" ] || { echo "${AFTER:-Lilu.kext} not in $R Kernel > Add"; exit 1; }
   for K in "$@"; do
     [ -d "$HERE/$K" ] || { echo "missing $HERE/$K"; exit 1; }
     rm -rf "$E/Kexts/$K"; ditto "$HERE/$K" "$E/Kexts/$K"
     OLD=$(index_of "$K" "$C"); [ -z "$OLD" ] || $PB -c "Delete :Kernel:Add:$OLD" "$C"
-    AT=$(index_of Lilu.kext "$C"); for P in "$@"; do [ "$P" = "$K" ] && break
+    AT=$(index_of "${AFTER:-Lilu.kext}" "$C"); for P in "$@"; do [ "$P" = "$K" ] && break
       I=$(index_of "$P" "$C"); [ -n "$I" ] && [ "$I" -gt "$AT" ] && AT=$I; done
     AT=$((AT+1)); X=$(basename "$K" .kext)
     $PB -c "Add :Kernel:Add:$AT dict" \
