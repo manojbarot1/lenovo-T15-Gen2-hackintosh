@@ -1,0 +1,32 @@
+# Multi-GB Apple images and downloads (re-downloadable)
+ventura/
+monterey/
+recovery/
+recovery-*/
+*.pkg
+*.dmg
+*.integrityDataV1
+*.chunklist
+kexts/
+opencore/
+
+# Contains the home Wi-Fi SSID and password - never commit
+stick-backup/
+**/itlwm.kext/Contents/Info.plist.wifi
+
+# Personal backups
+t15-backup/
+
+# Runtime files
+tools/t15.sock
+tools/t15-progress*.log
+__pycache__/
+*.before-*
+tools/t15-cm.sock
+tools/t15-*.log
+
+# Real SMBIOS serials
+private/
+
+# Phone photos of the T15 screen (kept locally)
+photos/
