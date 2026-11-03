@@ -1359,7 +1359,7 @@
 				AAAAAAAAAAAAAAAAAAA=
 				</data>
 				<key>boot-args</key>
-				<string>keepsyms=1 -allow3d -disablegfxfirmware -igfxdvmt -btlfxallowanyaddr</string>
+				<string>keepsyms=1 -allow3d -disablegfxfirmware -igfxdvmt -btlfxallowanyaddr -btlfxa2dpcheck</string>
 				<key>csr-active-config</key>
 				<data>
 				AwgAAA==

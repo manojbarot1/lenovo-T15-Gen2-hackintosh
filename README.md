@@ -23,6 +23,7 @@ finally worked. Work done 2026-11-02 → 2026-11-03.
 | Wi-Fi | Intel AX201 | `AirportItlwm` 2.3.0 Ventura build: native Wi-Fi menu (itlwm kept, disabled) |
 | Trackpad / TrackPoint | Synaptics over PS/2 | VoodooPS2 (Mouse + Trackpad plugins) |
 | Audio | Realtek ALC257 on Tiger Lake HDA (A0C8) | AppleALC, layout-id 11: speakers ✅ |
+| Bluetooth | Intel AX201 (USB 8087:0026 on HS07) | IntelBluetoothFirmware + IntelBTPatcher, BlueToolFixup 2.7.3 with the A2DP fix: on, AirPods Pro pair; A2DP sound being tested |
 | Ethernet | Intel I219 | IntelMausi |
 | Build machine | ThinkPad T14 Gen 1 running Linux (this repo) | — |
 
@@ -260,6 +261,7 @@ Ventura 13.4.1 Recovery (`recovery/com.apple.recovery.boot/BaseSystem.dmg` +
 - [x] Audio: **Realtek ALC257** (codec 0x10EC0257) on Tiger Lake HDA 8086:A0C8 (subsystem 17AA:22C9). AppleALC 1.9.8 after Lilu in OC + OCXE, `layout-id` 11 on `Pci(0x1f,0x3)` (`tools/mac-applealc.sh`, run from macOS). Speakers work; macOS shows Built-in Microphone and Line In
 - [ ] Audio: confirm headphone jack switching and the internal mic
 - [ ] Bluetooth: IntelBluetoothFirmware + IntelBTPatcher 2.4.0 and BlueToolFixup 2.7.2 after Lilu in OC + OCXE (`tools/mac-add-kexts.sh`, from macOS); AX201 BT is USB 8087:0026 on HS07, which must be internal (255) in USBMap (`tools/mac-usbmap-port.sh HS07 255`); NVRAM `bluetoothExternalDongleFailed=00`, `bluetoothInternalControllerInfo`=14×00 (also in NVRAM > Delete) and boot-arg `-btlfxallowanyaddr` per the BrcmPatchRAM README for macOS 12.4+ (`tools/mac-bt-nvram.sh`). Test: AirPods
+- [ ] AirPods "connected but no sound": `bluetoothd` logs `Server.A2DP: Failed to read BT clock` (Intel controllers don't answer `HCI_Read_Clock`, so the A2DP fast-connect path aborts). Fix: BlueToolFixup **2.7.3** from [hexxyan/BlueToolFixup-FixA2DP](https://github.com/hexxyan/BlueToolFixup-FixA2DP/releases/tag/2.7.3) (CI-built from the head of [acidanthera/BrcmPatchRAM#38](https://github.com/acidanthera/BrcmPatchRAM/pull/38)) plus boot-arg `-btlfxa2dpcheck`, which patches the 12/13 gate `85 DB 74 25` → `31 DB EB 25` in `bluetoothd` (`tools/mac-add-kexts.sh BlueToolFixup.kext`, `tools/mac-bootarg-add.sh -btlfxa2dpcheck`). Reported working on 13.7.8 22H730 with AX200 in [IntelBluetoothFirmware#462](https://github.com/OpenIntelWireless/IntelBluetoothFirmware/issues/462). No-reboot fallback: Audio MIDI Setup → AirPods → 8 kHz, then back to 48 kHz while audio plays
 - [ ] `git init` and push to GitHub (see `.gitignore`)
 
 ---

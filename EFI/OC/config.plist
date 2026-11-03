@@ -1311,7 +1311,7 @@
 				AAAAAAAAAAAAAAAAAAA=
 				</data>
 				<key>boot-args</key>
-				<string>keepsyms=1 -igfxvesa -btlfxallowanyaddr</string>
+				<string>keepsyms=1 -igfxvesa -btlfxallowanyaddr -btlfxa2dpcheck</string>
 				<key>csr-active-config</key>
 				<data>
 				AAgAAA==
