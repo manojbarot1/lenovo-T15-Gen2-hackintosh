@@ -6,27 +6,29 @@ finally worked. Work done 2026-11-02 → 2026-11-03.
 
 ### What works
 
-| | Feature | Notes |
-|---|---|---|
-| ✅ | Boot | straight from Debian's GRUB menu (no OpenCore picker), Apple logo, no verbose text |
-| ✅ | Graphics | **Iris Xe accelerated** (Metal 2, 1536 MB, HEVC) in the Iris Xe entry; VESA fallback entry |
-| ✅ | Wi-Fi | native Wi-Fi menu (AirportItlwm) |
-| ✅ | Bluetooth | on, pairs devices |
-| ✅ | AirPods Pro | sound, battery levels, Noise Cancellation / Transparency from the Sound menu |
-| ✅ | Speakers | Realtek ALC257 |
-| ✅ | Battery | percentage and charging status |
-| ✅ | Keyboard, trackpad, TrackPoint | PS/2 (VoodooPS2) |
-| ✅ | Ethernet | Intel I219 |
-| ✅ | Apple ID / iCloud | signed in with valid-looking unique serials |
-| ✅ | CPU power management, temperature sensor | XCPM + SMCProcessor |
-| ✅ | Recovery | its own GRUB entry |
-| ✅ | SSH | key login from the build machine |
-| ⏳ | Microphone, camera, external display, iMessage/FaceTime | detected or signed in, not tested yet |
-| ⏳ | Sleep/wake, lid | not tested yet |
-| ❌ | Screen brightness | no slider or Fn keys yet (to do) |
-| ❌ | AirPods Adaptive mode | needs macOS Sonoma or newer |
-| 🚫 | Fingerprint / Touch ID, AirDrop, Sidecar, Thunderbolt hot-plug | hardware limits on this laptop |
-| 🚫 | Internal Samsung PM981 SSD | incompatible with macOS; hidden (macOS runs on an external USB-C SSD) |
+| | Feature | How | Notes |
+|---|---|---|---|
+| ✅ | Boot | Debian GRUB entries chainload `EFI/OC*/OpenCore.efi` directly; `ShowPicker` false + one-entry ScanPolicy; `-v` removed | no OpenCore picker, Apple logo, no verbose text |
+| ✅ | Graphics | WhateverXe 0.7.0 + WhateverXe Graphics 0.4.0 pkg, AMFIPass, MacBookPro16,2, Ice Lake CPUID, `-allow3d -disablegfxfirmware -igfxdvmt`, `framebuffer-stolenmem` | **Iris Xe accelerated** (Metal 2, 1536 MB, HEVC) in the Iris Xe entry; the main entry is VESA (`-igfxvesa`, iGPU `device-id` spoof) |
+| ✅ | Wi-Fi | AirportItlwm 2.3.0 (Ventura build), `SecureBootModel` Disabled | native Wi-Fi menu |
+| ✅ | Bluetooth | IntelBluetoothFirmware + IntelBTPatcher 2.4.0, BlueToolFixup; USBMap HS07 = internal (255); NVRAM `bluetoothExternalDongleFailed` / `bluetoothInternalControllerInfo`; `-btlfxallowanyaddr` | on, pairs devices |
+| ✅ | AirPods Pro | BlueToolFixup **2.7.3** (A2DP fix) + `-btlfxa2dpcheck`; Sound menu-bar icon shown | sound, battery levels, Noise Cancellation / Transparency |
+| ✅ | Speakers | AppleALC 1.9.8, `layout-id` 11 on `Pci(0x1f,0x3)` | Realtek ALC257 |
+| ✅ | Battery | SMCBatteryManager + ECEnabler after VirtualSMC | percentage and charging status |
+| ✅ | Keyboard, trackpad, TrackPoint | VoodooPS2 (Keyboard, Mouse, Trackpad) + VoodooInput | PS/2 |
+| ✅ | USB | USBMap.kext + `SSDT-RHUB` | custom port map |
+| ✅ | Ethernet | IntelMausi | Intel I219 |
+| ✅ | Apple ID / iCloud | real `macserial` serial/MLB/UUID per model, ROM = Wi-Fi MAC (kept out of git) | signed in |
+| ✅ | No "memory misconfigured" notice | RestrictEvents 1.1.6 | MacPro7,1 side effect |
+| ✅ | CPU power management, temperature | `SSDT-PLUG` (XCPM), CFG-lock quirks, CpuTscSync, SMCProcessor | |
+| ✅ | Recovery | `EFI/OCREC` + 13.4.1 recovery dmg, its own GRUB entry | |
+| ✅ | SSH | Remote Login (+ full disk access for remote users), key auth | ESP editable from macOS |
+| ⏳ | Microphone, camera, external display, iMessage/FaceTime | AppleALC / UVC / WEX / iCloud | detected or signed in, not tested yet |
+| ⏳ | Sleep/wake, lid | — | not tested yet |
+| ❌ | Screen brightness | to do: SSDT-PNLF with WEX + BrightnessKeys | no slider or Fn keys yet |
+| ❌ | AirPods Adaptive mode | — | needs macOS Sonoma or newer |
+| 🚫 | Fingerprint / Touch ID, AirDrop, Sidecar, Thunderbolt hot-plug | — | hardware limits (no Secure Enclave, Intel Wi-Fi/BT) |
+| 🚫 | Internal Samsung PM981 SSD | hidden with `class-code FFFFFFFF` | incompatible with macOS; macOS runs on an external USB-C SSD |
 
 > **Status (2026-11-03, evening):** macOS Ventura 13.7.8 runs from an external USB-C SSD.
 > Next: screen brightness, then sleep/wake. See [Daily use and workarounds](#daily-use-and-workarounds)
