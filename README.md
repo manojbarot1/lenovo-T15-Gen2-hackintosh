@@ -4,11 +4,32 @@ A record of getting macOS Ventura 13.7.8 running on a Lenovo ThinkPad T15 Gen 2i
 with OpenCore 1.0.8: what was tried, what failed and why, and the procedure that
 finally worked. Work done 2026-11-02 → 2026-11-03.
 
-> **Status (2026-11-03, evening):** macOS Ventura 13.7.8 runs from an external USB-C SSD,
-> booted straight from Debian's GRUB menu (no OpenCore picker). Working: Wi-Fi (native menu),
-> Bluetooth, AirPods Pro with sound and noise control, speakers, battery status, Apple ID /
-> iCloud, SSH, and **accelerated Iris Xe graphics** (Metal 2) in the `EFI/OCXE` entry.
-> Not yet: screen brightness, sleep/wake (untested). See [Daily use and workarounds](#daily-use-and-workarounds)
+### What works
+
+| | Feature | Notes |
+|---|---|---|
+| ✅ | Boot | straight from Debian's GRUB menu (no OpenCore picker), Apple logo, no verbose text |
+| ✅ | Graphics | **Iris Xe accelerated** (Metal 2, 1536 MB, HEVC) in the Iris Xe entry; VESA fallback entry |
+| ✅ | Wi-Fi | native Wi-Fi menu (AirportItlwm) |
+| ✅ | Bluetooth | on, pairs devices |
+| ✅ | AirPods Pro | sound, battery levels, Noise Cancellation / Transparency from the Sound menu |
+| ✅ | Speakers | Realtek ALC257 |
+| ✅ | Battery | percentage and charging status |
+| ✅ | Keyboard, trackpad, TrackPoint | PS/2 (VoodooPS2) |
+| ✅ | Ethernet | Intel I219 |
+| ✅ | Apple ID / iCloud | signed in with valid-looking unique serials |
+| ✅ | CPU power management, temperature sensor | XCPM + SMCProcessor |
+| ✅ | Recovery | its own GRUB entry |
+| ✅ | SSH | key login from the build machine |
+| ⏳ | Microphone, camera, external display, iMessage/FaceTime | detected or signed in, not tested yet |
+| ⏳ | Sleep/wake, lid | not tested yet |
+| ❌ | Screen brightness | no slider or Fn keys yet (to do) |
+| ❌ | AirPods Adaptive mode | needs macOS Sonoma or newer |
+| 🚫 | Fingerprint / Touch ID, AirDrop, Sidecar, Thunderbolt hot-plug | hardware limits on this laptop |
+| 🚫 | Internal Samsung PM981 SSD | incompatible with macOS; hidden (macOS runs on an external USB-C SSD) |
+
+> **Status (2026-11-03, evening):** macOS Ventura 13.7.8 runs from an external USB-C SSD.
+> Next: screen brightness, then sleep/wake. See [Daily use and workarounds](#daily-use-and-workarounds)
 > and [Still to do](#still-to-do).
 
 ---
