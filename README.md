@@ -23,7 +23,7 @@ finally worked. Work done 2026-11-02 → 2026-11-03.
 | Wi-Fi | Intel AX201 | `AirportItlwm` 2.3.0 Ventura build: native Wi-Fi menu (itlwm kept, disabled) |
 | Trackpad / TrackPoint | Synaptics over PS/2 | VoodooPS2 (Mouse + Trackpad plugins) |
 | Audio | Realtek ALC257 on Tiger Lake HDA (A0C8) | AppleALC, layout-id 11: speakers ✅ |
-| Bluetooth | Intel AX201 (USB 8087:0026 on HS07) | IntelBluetoothFirmware + IntelBTPatcher, BlueToolFixup 2.7.3 with the A2DP fix: AirPods Pro connect and play sound ✅ |
+| Bluetooth | Intel AX201 (USB 8087:0026 on HS07) | IntelBluetoothFirmware + IntelBTPatcher, BlueToolFixup 2.7.3 with the A2DP fix: AirPods Pro connect and play sound; Noise Cancellation / Transparency switch from the Sound menu ✅ (Adaptive needs Sonoma+) |
 | Ethernet | Intel I219 | IntelMausi |
 | Build machine | ThinkPad T14 Gen 1 running Linux (this repo) | — |
 
